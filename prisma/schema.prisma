@@ -1,0 +1,130 @@
+// Manoa Carpool schema draft for Issue #6.
+// The application must verify @hawaii.edu email ownership before granting access.
+// This schema is a design draft; no database migration has been run.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum RideStatus {
+  OPEN
+  COMPLETED
+  CANCELLED
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWING
+  RESOLVED
+  DISMISSED
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique // UH email is validated in application code
+  name            String
+  role            Role     @default(USER)
+  homeArea        String?
+  rating          Float?   // Cached average of received ratings
+  points          Int      @default(0)
+  emailVerifiedAt DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  rides           Ride[]        @relation("DriverRides")
+  rideRequests    RideRequest[]
+  ratingsGiven    Rating[]      @relation("RatingsGiven")
+  ratingsReceived Rating[]      @relation("RatingsReceived")
+  reportsFiled    Report[]      @relation("ReportsFiled")
+  reportsReceived Report[]      @relation("ReportsReceived")
+}
+
+model Ride {
+  id             String     @id @default(cuid())
+  driverId       String
+  origin         String
+  destination    String
+  departureTime  DateTime
+  seats          Int        // Total seats offered; validate > 0 in application code
+  status         RideStatus @default(OPEN)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  driver         User          @relation("DriverRides", fields: [driverId], references: [id])
+  requests       RideRequest[]
+  ratings        Rating[]
+  reports        Report[]
+
+  @@index([departureTime, status])
+  @@index([driverId])
+}
+
+model RideRequest {
+  id             String        @id @default(cuid())
+  rideId         String
+  riderId        String
+  status         RequestStatus @default(PENDING)
+  requestedAt    DateTime      @default(now())
+  respondedAt    DateTime?
+  driverConfirmedAt DateTime?
+  riderConfirmedAt  DateTime?
+
+  ride           Ride          @relation(fields: [rideId], references: [id])
+  rider          User          @relation(fields: [riderId], references: [id])
+
+  @@unique([rideId, riderId])
+  @@index([riderId, status])
+}
+
+model Rating {
+  id             String   @id @default(cuid())
+  rideId         String
+  authorId       String
+  recipientId    String
+  score          Int      // Enforce 1..5 in app validation
+  comment        String?
+  createdAt      DateTime @default(now())
+
+  ride           Ride     @relation(fields: [rideId], references: [id])
+  author         User     @relation("RatingsGiven", fields: [authorId], references: [id])
+  recipient      User     @relation("RatingsReceived", fields: [recipientId], references: [id])
+
+  @@unique([rideId, authorId, recipientId])
+  @@index([recipientId])
+}
+
+model Report {
+  id             String       @id @default(cuid())
+  rideId         String?
+  reporterId     String
+  reportedUserId String
+  reason         String
+  details        String?
+  status         ReportStatus @default(OPEN)
+  createdAt      DateTime     @default(now())
+  resolvedAt     DateTime?
+
+  ride           Ride?        @relation(fields: [rideId], references: [id])
+  reporter       User         @relation("ReportsFiled", fields: [reporterId], references: [id])
+  reportedUser   User         @relation("ReportsReceived", fields: [reportedUserId], references: [id])
+
+  @@index([status, createdAt])
+  @@index([reportedUserId])
+}
