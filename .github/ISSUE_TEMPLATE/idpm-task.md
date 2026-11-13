@@ -28,18 +28,18 @@ Do all work for this task in a branch called issue-XX
 
 ## Effort tracking (REQUIRED, E57B, graded in the M1-M3 checklists)
 
-These fields are mandatory, not optional. The M1, M2, and M3 checklists grade whether every issue records its estimate and actual effort.
+These fields are mandatory, not optional. The M1, M2, and M3 checklists grade whether every issue records its estimate and actual effort. Write times in minutes, hours, or both, with units (for example, `25 minutes` or `1 hour 15 minutes`).
 
-- Estimated time to complete (hours): REQUIRED before starting
+- Estimated time to complete: REQUIRED before starting
 - Estimator: REQUIRED before starting
-- Actual time to complete (hours; coding + non-coding): REQUIRED before closing
-- Coding effort (hours): REQUIRED before closing
-- Non-coding effort (hours): REQUIRED before closing
-- AI-assisted coding (hours, part of coding effort, not extra): REQUIRED before closing (write 0 if none)
-- AI-assisted non-coding (hours, part of non-coding effort, not extra): REQUIRED before closing (write 0 if none)
+- Actual time to complete (coding + non-coding): REQUIRED before closing
+- Coding effort: REQUIRED before closing
+- Non-coding effort: REQUIRED before closing
+- AI-assisted coding (part of coding effort, not extra): REQUIRED before closing (write 0 if none)
+- AI-assisted non-coding (part of non-coding effort, not extra): REQUIRED before closing (write 0 if none)
 
 Rules:
-1. Before moving this issue to In Progress, you must fill in the estimate and estimator, post a comment explaining how you estimated, and enter the same values in the milestone board's `Estimated Effort (hours)` and `Estimator` fields.
+1. Before moving this issue to In Progress, you must fill in the estimate and estimator, post a comment explaining how you estimated, and enter the same values in the milestone board's `Estimated Effort (hours)` and `Estimator` fields (convert minutes to hours: divide by 60).
 2. Before closing this issue, you must fill in every actual-time line above and the board's `Coding Effort (hours)` and `Non-Coding Effort (hours)` fields.
 3. Use real, honestly tracked time. Never guess or invent numbers for someone else.
 
