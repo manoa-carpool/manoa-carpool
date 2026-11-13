@@ -30,6 +30,28 @@ Use the [M1](https://courses.ics.hawaii.edu/ics314f26/morea/final-project/experi
 - M3 requires feedback from at least five UH community members outside ICS 314. Plan for this early, record feedback accurately, and summarize it on the home page. Obtain permission before collecting or publishing identifiable participant or ride data. Do not fabricate feedback or production data.
 - For every milestone, check the linked course instructions and relevant existing issues before creating new work. Keep each milestone releasable, document any limitations, and report remaining unmet requirements clearly.
 
+## Git safety rules (never break these)
+
+Both repos have GitHub rules that block force-pushes on every branch and block deleting `main`. Work so they never have to stop you:
+
+- Never commit directly on `main`. Every change starts on its own `issue-NN` branch (or a short-lived feature branch named after an issue).
+- Work only on your own issue branch. Don't commit to or push someone else's branch unless they ask you to.
+- Never run `git push --force`, `git reset --hard` on anything already pushed, `git rebase`, or `git push origin --delete` on someone else's branch. If git refuses a push, run `git pull` and merge instead.
+- Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge issue-NN && git push`.
+- If something looks wrong (lost work, a strange conflict, a refused push), stop and ask in Discord before trying to fix it.
+- Commit small and often with clear messages. Everyone's commit history is part of their grade; the "Contribution tracker" issue shows each person's commits, lines, and issues.
+
+## Manoa Carpool code conventions
+
+Read [docs/course-requirements.md](docs/course-requirements.md) and [docs/project-plan.md](docs/project-plan.md) first. The course requirements and due dates are fixed; the project plan (data model, backend functions, pages, who owns what, git workflow) is the team's choice and can change. Never move or relax a course deadline or requirement when updating the plan.
+
+- Follow the course template's layout: pages in `src/app/<route>/page.tsx`, shared components in `src/components/`, Yup schemas in `src/lib/validationSchemas.ts`, Prisma client from `src/lib/prisma.ts`.
+- All database writes go through server actions in `src/lib/` (`dbActions.ts`, `rideActions.ts`, `requestActions.ts`, `points.ts`, `feedbackActions.ts`). Pages and components never write with Prisma directly, so rules like UH-only sign-up, seat limits, and awarding points once stay in one place.
+- Model ids are `Int`, matching the template. Change `prisma/schema.prisma` only in an issue meant for it, create a named migration (`npx prisma migrate dev --name <change>`), run `npx prisma generate`, and update the seed if needed.
+- Mockups (M1) use hardcoded sample data in the page file; M2 replaces it with real queries. Never present sample data as real users.
+- Before merging into main: merge the latest main into your issue branch, run `npm run lint` with no errors, and make sure the app starts with `npm run dev`. From M2 on, also run the Playwright tests.
+- Shared files (`schema.prisma`, `dbActions.ts`, `Navbar.tsx`, `layout.tsx`): only change what your issue needs and tell the team in Discord, to avoid overwriting someone's work.
+
 ## Ask people for missing course-required information
 
 When a course requirement depends on information only a person or the team can provide, explicitly name the relevant assignment, explain what is missing and why, and ask the user or responsible teammate for it. Do not silently guess, manufacture values, or claim the requirement is complete. Ask only for information relevant to the current task, group related questions, and distinguish course requirements from recommendations. Continue other safe work while answers are pending; if the user cannot answer yet, leave the fields as `Not yet recorded` and report what remains.

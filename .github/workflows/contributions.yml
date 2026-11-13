@@ -1,0 +1,29 @@
+# rewrites the "Contribution tracker" issue with each person's commits, lines, and issues
+name: contribution-tracker
+
+on:
+  push:
+  schedule:
+    - cron: '0 18 * * *' # every day at 8 AM Hawaii time
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: contribution-tracker
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Update the tracker issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/contributions.mjs --update-issue >> "$GITHUB_STEP_SUMMARY"
