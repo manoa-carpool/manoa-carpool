@@ -37,7 +37,7 @@ Both repos have GitHub rules that block force-pushes on every branch and block d
 - Never commit directly on `main`. Every change starts on its own `issue-NN` branch (or a short-lived feature branch named after an issue).
 - Work only on your own issue branch. Don't commit to or push someone else's branch unless they ask you to.
 - Never run `git push --force`, `git reset --hard` on anything already pushed, `git rebase`, or `git push origin --delete` on someone else's branch. If git refuses a push, run `git pull` and merge instead.
-- Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge issue-NN && git push`.
+- Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge --no-edit main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge --no-edit issue-NN && git push`.
 - If something looks wrong (lost work, a strange conflict, a refused push), stop and ask in Discord before trying to fix it.
 - Commit small and often with clear messages. Everyone's commit history is part of their grade; the "Contribution tracker" issue shows each person's commits, lines, and issues.
 

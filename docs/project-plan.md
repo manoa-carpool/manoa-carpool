@@ -111,7 +111,7 @@ git push -u origin issue-NN
 # when done:
 git checkout main
 git pull
-git merge issue-NN                # fix any conflicts, run npm run lint
+git merge --no-edit issue-NN      # fix any conflicts, run npm run lint
 git push
 ```
 
