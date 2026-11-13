@@ -4,3 +4,4 @@ Each person adds their own row in trial run 1 (one line each, in any order). Eve
 
 | Name | GitHub | What I'm building |
 |---|---|---|
+| Robert | CMDAwesome | Wireframing for the website and task assignment organization. |
