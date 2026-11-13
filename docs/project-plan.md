@@ -116,7 +116,7 @@ git merge --no-edit issue-NN      # fix any conflicts, run npm run lint
 git push
 ```
 
-Then record your actual hours (required: coding, non-coding, and the AI-assisted part of each), close the issue, and move it to Done. The estimate and estimator are required before you start. Both are graded on every milestone checklist (E57B). Only touch files your issue is about; if you need to change a shared file (`dbActions.ts`, `schema.prisma`, the navbar), say so in Discord first.
+Only after `main` is pushed and your work shows up on `main` on GitHub: record your actual hours (required: coding, non-coding, and the AI-assisted part of each), close the issue, and move it to Done. Closing an issue before its branch is merged means the work isn't really in the app. The estimate and estimator are required before you start. Both are graded on every milestone checklist (E57B). Only touch files your issue is about; if you need to change a shared file (`dbActions.ts`, `schema.prisma`, the navbar), say so in Discord first.
 
 **Safety:** GitHub blocks force-pushes on every branch and blocks deleting `main`, so pushed work can't be wiped. Never commit straight to `main`, never work on someone else's branch, and never use `git push --force`, `git reset --hard` on pushed work, or `git rebase`. The full list is in [AGENTS.md](../AGENTS.md#git-safety-rules-never-break-these).
 

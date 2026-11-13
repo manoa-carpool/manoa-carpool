@@ -24,7 +24,7 @@ Do all work for this task in a branch called issue-XX
 1. Work only on branch `issue-XX` (this issue's number). Commit small and often with clear messages.
 2. Push the branch and wait for the `ci-manoa-carpool` check on it to pass (green). If it fails, fix it on the branch.
 3. Merge into `main` only after the check is green: `git checkout main`, `git pull`, `git checkout issue-XX`, `git merge --no-edit main`, `git checkout main`, `git merge --no-edit issue-XX`, `git push`. Never force-push, hard-reset, or rebase.
-4. Fill in the actual-time lines below, close the issue, and move it to Done.
+4. **An issue is only done when its branch is merged into `main` and `main` is pushed.** Check on GitHub that your changes are on `main` (open the file on the `main` branch). Only then fill in the actual-time lines, close the issue, and move it to Done. Never close an issue whose work is still only on its branch.
 
 ## Effort tracking (REQUIRED, E57B, graded in the M1-M3 checklists)
 
