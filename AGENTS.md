@@ -11,3 +11,21 @@ When creating or updating GitHub issues for this repository, follow the course's
 - Do not count parent tracker effort again when it is already recorded on child issues; record only distinct actual work. Preserve existing issue text, estimates, tracking data, ownership, and statuses when updating issues.
 
 AGENTS.md gives instructions to compatible agents that read this repository; it does not enforce behavior for every tool or GitHub user. Use the issue template as a starting point and verify new issues after creation.
+
+## Final project: avoid rework
+
+Use the [M1](https://courses.ics.hawaii.edu/ics314f26/morea/final-project/experience-final-project-m1.html), [M2](https://courses.ics.hawaii.edu/ics314f26/morea/final-project/experience-final-project-m2.html), [M3](https://courses.ics.hawaii.edu/ics314f26/morea/final-project/experience-final-project-m3.html), [E62 testing](https://courses.ics.hawaii.edu/ics314f26/morea/testing/experience-testing-final-project.html), and [hosting](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/reading-guidelines-github-hosting.html) requirements as the source of truth. Confirm assignment deadlines in Lamakū. Implement changes incrementally; do not redesign or replace existing work without a specific need.
+
+### Git and collaboration
+- Work in the shared organization repository, commit early and often with informative messages, and merge issue branches into main. The course's [IDPM antipatterns](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/reading-idpm-antipatterns.html) say not to fork, use pull requests, or rebase for this process. Preserve teammates' changes and coordinate around shared files.
+- Keep issues and board status current. At each milestone transition create the next project and move unfinished issues as described in IDPM; do not create all boards in advance. Do not claim team members have contributed or submitted work without verifying it.
+
+### Build and test incrementally
+- M1 requires a Vercel-deployed application with an explanatory landing page, a login entry point, and at least four other page mockups. M2 requires four deployed pages beyond the landing page, excluding template sign-in/register, plus at least one database read and one database write through a form. M3 adds substantial functionality and appropriate real data. Design incrementally around these milestones rather than treating mockups as finished functionality.
+- When adding or changing pages and forms, preserve existing behavior and add or update Playwright availability tests, including at least one valid input per form. Follow the Page Object Model required by E62; by M2, GitHub Actions must build and run ESLint and Playwright on commits to main, with a status badge on the organization home page. Start testing early when practical; report tests you could not run rather than claiming they pass.
+- Host source code needed to build the application, but keep generated dependencies, production secrets, credentials, and private user data out of Git. Document required environment variables without their values. Use safe examples and avoid claiming mock data are real.
+
+### Keep project documentation current
+- Update the separate organization home page (`manoa-carpool.github.io`) when relevant features or deployment change. Maintain the overview, user guide with current screenshots, developer setup/run/deploy guide, development history with project links, community feedback, and contact information. Link the running deployment, organization/repositories, team contract, and CI badge as applicable.
+- M3 requires feedback from at least five UH community members outside ICS 314. Plan for this early, record feedback accurately, and summarize it on the home page. Obtain permission before collecting or publishing identifiable participant or ride data. Do not fabricate feedback or production data.
+- For every milestone, check the linked course instructions and relevant existing issues before creating new work. Keep each milestone releasable, document any limitations, and report remaining unmet requirements clearly.
