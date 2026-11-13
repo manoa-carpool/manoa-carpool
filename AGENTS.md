@@ -1,12 +1,25 @@
 # GitHub issue and effort tracking instructions
 
+## Required on every project issue (no exceptions)
+
+These are mandatory. Treat them as requirements, not suggestions, and remind the person if any are missing.
+
+1. **Estimate before starting.** Before an issue moves to In Progress, it must have an estimate in hours, the estimator's name, and a comment explaining how the estimate was made, and the same values must be entered in the milestone board's `Estimated Effort (hours)` and `Estimator` fields. If they are missing, ask the owner for them before starting work.
+2. **Actuals before closing.** Before an issue is closed, it must record actual coding hours, non-coding hours, and the AI-assisted part of each (write 0 if none), and the board's `Coding Effort (hours)` and `Non-Coding Effort (hours)` fields must be filled in. If they are missing, ask the owner; never close the issue without them.
+3. **Use the issue format.** Every new project issue must follow `.github/ISSUE_TEMPLATE/idpm-task.md` exactly: the branch line, What to do, Done when, Depends on, Required steps to finish, and the required Effort tracking section. Only the task-specific parts change. Issues labeled `individual` (personal coursework) are the only exception.
+4. **Branch first, green check, then merge.** All work happens on the issue's `issue-NN` branch. Push the branch, wait for the `ci-manoa-carpool` check on that branch to pass, and only then merge into `main`. Never commit directly to `main`.
+
+5. **Done means merged.** An issue may be closed or moved to Done only after its branch is merged into `main` and `main` is pushed to GitHub, so the work is visible on `main`. Pushing the branch or finishing the code is not enough. Before closing an issue, check that the branch has nothing left to merge (on GitHub, the branch shows "0 commits ahead of main"). If an issue was closed early, reopen it until the merge is done.
+
+These are graded: every milestone checklist requires recorded estimates and actual effort for each issue (E57B), and the course caps the team at 50% credit if the issues don't show who did what and when.
+
 When creating or updating GitHub issues for this repository, follow the course's [IDPM guidelines](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/reading-guidelines-idpm.html), [issue specification guidelines](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/reading-guidelines-github-issues.html), and [E57B effort estimation requirements](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/experience-effort-estimation.html).
 
 - Use an action-oriented title, describe the concrete work and completion criteria, and link relevant requirements and related issues. Avoid duplicating work. For assignments, include the assignment identifier in the title.
 - Begin the body with `Do all work for this task in a branch called issue-XX`, replacing `XX` with the actual GitHub issue number. GitHub assigns the number after creation, so edit the body immediately afterward. Name branches `issue-<number>` and merge to main when complete.
 - Keep tasks small enough for approximately 2–3 days; one person is accountable for an in-progress task. Add relevant milestone work to the active GitHub Project, without creating future milestone projects prematurely.
-- Include an effort section with estimated time, estimator, actual total time, coding effort, and non-coding effort. Accept minutes, hours, or both, with units (for example, `10 minutes` or `1 hour 15 minutes`); do not require people to calculate decimals. Use `Not yet recorded` when unknown. Never invent estimates, actuals, people, or time logs. Ask the responsible person for a reasoned estimate and post its basis in an issue comment.
-- Each milestone Project must include number fields `Estimated Effort (hours)`, `Coding Effort (hours)`, `Non-Coding Effort (hours)`, and text field `Estimator`. Convert supplied minutes to hours (divide by 60; 10 minutes is approximately 0.167 hours) when entering these numeric fields; preserve the original units in the issue. The final E57B report uses minutes. Enter only honest values; an issue body alone does not satisfy the board requirement. Actual total is coding plus non-coding, not an additional amount. Update actuals when status changes and on completion.
+- Include an effort section with estimated time, estimator, actual total time, coding effort, non-coding effort, and the AI-assisted part of each. Accept minutes, hours, or both, with units (for example, `10 minutes` or `1 hour 15 minutes`); do not require people to calculate decimals. Placeholders read `REQUIRED before starting` (estimate, estimator) or `REQUIRED before closing` (actuals); they must be replaced with real values at those points. Never invent estimates, actuals, people, or time logs. Ask the responsible person for a reasoned estimate and post its basis in an issue comment.
+- Each milestone Project must include number fields `Estimated Effort (hours)`, `Coding Effort (hours)`, `Non-Coding Effort (hours)`, and text field `Estimator`, and every issue on the board must have them filled in. Convert supplied minutes to hours (divide by 60; 10 minutes is approximately 0.167 hours) when entering these numeric fields; preserve the original units in the issue. The final E57B report uses minutes. Enter only honest values; an issue body alone does not satisfy the board requirement. Actual total is coding plus non-coding, not an additional amount. Update actuals when status changes and on completion.
 - Track actual work accurately, excluding breaks, with individual time logs or a timer. For AI-assisted coding, include time spent on prompt engineering, generation and quick post-processing, verification/debugging, and integration/refactoring in coding effort. AI work on documentation, design, learning, or meetings counts as non-coding. Breakdowns are subsets of actuals, not extra hours. Record AI tool/provider and model/version and representative prompts when needed for E57B reflection, without exposing secrets.
 - Do not count parent tracker effort again when it is already recorded on child issues; record only distinct actual work. Preserve existing issue text, estimates, tracking data, ownership, and statuses when updating issues.
 
@@ -30,6 +43,67 @@ Use the [M1](https://courses.ics.hawaii.edu/ics314f26/morea/final-project/experi
 - M3 requires feedback from at least five UH community members outside ICS 314. Plan for this early, record feedback accurately, and summarize it on the home page. Obtain permission before collecting or publishing identifiable participant or ride data. Do not fabricate feedback or production data.
 - For every milestone, check the linked course instructions and relevant existing issues before creating new work. Keep each milestone releasable, document any limitations, and report remaining unmet requirements clearly.
 
+## Issue format (required for every project issue)
+
+Every project issue must use this exact structure, the same as `.github/ISSUE_TEMPLATE/idpm-task.md`. Only the bracketed, task-specific parts change; keep every heading and every required line. Issues labeled `individual` (personal coursework) are the only exception.
+
+How to fill each section:
+
+- **Title:** short and action-first ("Build leaderboard page mockup", "Add createRide server action"). For course assignments, start with the assignment ID ("E60: ...").
+- **Branch line:** the first line is always `Do all work for this task in a branch called issue-NN` with the real issue number. GitHub assigns the number after creation, so edit the body right after creating the issue.
+- **What to do:** what to build or do, specific enough that a teammate could start without asking. Name the files or routes involved and link the mockup, course requirement, or related issues.
+- **Done when:** a checklist of concrete, checkable results (what you can see or run), including `npm run lint` passing for code issues. Avoid vague items like "page looks good".
+- **Depends on:** the issues that must be merged first, or "Nothing".
+- **Required steps to finish:** keep exactly as in the template (branch, green check, merge, done means merged).
+- **Effort tracking:** keep exactly as in the template. Estimate and estimator before starting; actual coding, non-coding, and AI-assisted time before closing, in minutes or hours with units.
+- **Size and owner:** about 2–3 days of work at most (split anything bigger), exactly one assignee, and add it to the current milestone board.
+
+The full format:
+
+````markdown
+Do all work for this task in a branch called issue-XX
+
+## What to do
+
+[What to build or do, in a few sentences. Link the page mockup, course requirement, or related issues.]
+
+## Done when
+
+- [ ] [A specific, checkable result]
+- [ ] [Another one]
+- [ ] `npm run lint` passes (for code issues)
+
+## Depends on
+
+[Issues that must be finished first, or "Nothing".]
+
+## Required steps to finish
+
+1. Work only on branch `issue-XX` (this issue's number). Commit small and often with clear messages.
+2. Push the branch and wait for the `ci-manoa-carpool` check on it to pass (green). If it fails, fix it on the branch.
+3. Merge into `main` only after the check is green: `git checkout main`, `git pull`, `git checkout issue-XX`, `git merge --no-edit main`, `git checkout main`, `git merge --no-edit issue-XX`, `git push`. Never force-push, hard-reset, or rebase.
+4. **An issue is only done when its branch is merged into `main` and `main` is pushed.** Check on GitHub that your changes are on `main` (open the file on the `main` branch). Only then fill in the actual-time lines, close the issue, and move it to Done. Never close an issue whose work is still only on its branch.
+
+## Effort tracking (REQUIRED, E57B, graded in the M1-M3 checklists)
+
+These fields are mandatory, not optional. The M1, M2, and M3 checklists grade whether every issue records its estimate and actual effort. Write times in minutes, hours, or both, with units (for example, `25 minutes` or `1 hour 15 minutes`).
+
+- Estimated time to complete: REQUIRED before starting
+- Estimator: REQUIRED before starting
+- Actual time to complete (coding + non-coding): REQUIRED before closing
+- Coding effort: REQUIRED before closing
+- Non-coding effort: REQUIRED before closing
+- AI-assisted coding (part of coding effort, not extra): REQUIRED before closing (write 0 if none)
+- AI-assisted non-coding (part of non-coding effort, not extra): REQUIRED before closing (write 0 if none)
+
+Rules:
+1. Before moving this issue to In Progress, you must fill in the estimate and estimator, post a comment explaining how you estimated, and enter the same values in the milestone board's `Estimated Effort (hours)` and `Estimator` fields (convert minutes to hours: divide by 60).
+2. Before closing this issue, you must fill in every actual-time line above and the board's `Coding Effort (hours)` and `Non-Coding Effort (hours)` fields.
+3. Use real, honestly tracked time. Never guess or invent numbers for someone else.
+
+After creating the issue, replace every `XX` with its actual issue number.
+````
+
 ## Git safety rules (never break these)
 
 Both repos have GitHub rules that block force-pushes on every branch and block deleting `main`. Work so they never have to stop you:
@@ -37,7 +111,7 @@ Both repos have GitHub rules that block force-pushes on every branch and block d
 - Never commit directly on `main`. Every change starts on its own `issue-NN` branch (or a short-lived feature branch named after an issue).
 - Work only on your own issue branch. Don't commit to or push someone else's branch unless they ask you to.
 - Never run `git push --force`, `git reset --hard` on anything already pushed, `git rebase`, or `git push origin --delete` on someone else's branch. If git refuses a push, run `git pull` and merge instead.
-- Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge --no-edit main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge --no-edit issue-NN && git push`.
+- Push your issue branch and wait for its `ci-manoa-carpool` check to pass before merging. Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge --no-edit main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge --no-edit issue-NN && git push`.
 - If something looks wrong (lost work, a strange conflict, a refused push), stop and ask in Discord before trying to fix it.
 - Commit small and often with clear messages. Everyone's commit history is part of their grade; the "Contribution tracker" issue shows each person's commits, lines, and issues.
 
