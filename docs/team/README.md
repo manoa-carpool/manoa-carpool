@@ -7,3 +7,4 @@ Each person adds their own row in trial run 1 (one line each, in any order). Eve
 | Robert | CMDAwesome | Wireframing for the website and task assignment organization. |
 | Donald | donaldsanchez11 | Schema draft, vercel, database reseach |
 | Samuel | smattis96734 | Frontend demo |
+| Aaron | A-Mundanilkunathil | Backend: database schema, server actions, and deployment. |
