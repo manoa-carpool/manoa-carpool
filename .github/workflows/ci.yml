@@ -36,9 +36,13 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Check for pasted templates and template leftovers
+        run: node scripts/check-branch.mjs
       - name: Install dependencies
         run: npm install
       - name: Install Playwright Browsers

@@ -21,7 +21,7 @@ Do all work for this task in a branch called issue-XX
 
 ## Required steps to finish
 
-1. Work only on branch `issue-XX` (this issue's number). Commit small and often with clear messages.
+1. Start from an up-to-date `main` (`git checkout main`, `git pull`, `git checkout -b issue-XX`) and only change the files this issue is about. Never paste in a template or another project; the branch check fails if you do. Commit small and often with clear messages.
 2. Push the branch and wait for the `ci-manoa-carpool` check on it to pass (green). If it fails, fix it on the branch.
 3. Merge into `main` only after the check is green: `git checkout main`, `git pull`, `git checkout issue-XX`, `git merge --no-edit main`, `git checkout main`, `git merge --no-edit issue-XX`, `git push`. Never force-push, hard-reset, or rebase.
 4. **An issue is only done when its branch is merged into `main` and `main` is pushed.** Check on GitHub that your changes are on `main` (open the file on the `main` branch). Only then fill in the actual-time lines, close the issue, and move it to Done. Never close an issue whose work is still only on its branch.
