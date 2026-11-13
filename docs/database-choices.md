@@ -21,8 +21,10 @@ We chose PostgreSQL with Prisma because it supports relationships, works with Ne
 
 ### Database Hosting Plan
 
-We plan to use PostgreSQL with Prisma for the Mānoa Carpool application. PostgreSQL will store user profiles, rides, ride requests, ratings, and reports. Prisma will help our Next.js application communicate with the database.
+We chose PostgreSQL with Prisma for the Mānoa Carpool application. PostgreSQL will store user profiles, rides, ride requests, ratings, and reports. Prisma will help our Next.js application communicate with the database.
 
-For deployment, we plan to use Neon to host the PostgreSQL database and Vercel to host our Next.js website. Both services provide free starting options suitable for a student project.
+For deployment, we will create the PostgreSQL database through Vercel's Storage tab using Neon as the database provider. Neon will host the PostgreSQL database, while Vercel will host our Next.js application.
 
-This setup allows users to access the application online without requiring our team to maintain a physical server. We will store the database connection securely using environment variables.
+We will use pgAdmin to connect to the hosted database and check its tables and data, following the E59/E60 deployment process.
+
+The database connection will be stored securely using environment variables instead of putting credentials directly into our code.
