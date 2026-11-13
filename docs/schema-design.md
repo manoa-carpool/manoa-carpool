@@ -37,3 +37,11 @@ erDiagram
 ## Status
 
 Schema draft only. No deployment, migrations, or seed data are included in Issue #6. If the team starts with Prisma 7, move the connection URL into `prisma.config.ts` as required by that version rather than using the `datasource.url` field in this class-style draft.
+
+### Final Schema Implementation Notes
+
+The final Prisma schema will use `Int` IDs for database records to remain consistent with the existing Next.js application template.
+
+The `User` model will keep the template's `password` field so the existing sign-in system continues to work.
+
+This document is a schema draft. Aaron will implement and test the final Prisma schema as part of Issue #99.
