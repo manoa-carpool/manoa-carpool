@@ -117,12 +117,16 @@ After creating the issue, replace every `XX` with its actual issue number.
 
 Both repos have GitHub rules that block force-pushes on every branch and block deleting `main`. Work so they never have to stop you:
 
-- Never commit directly on `main`. Every change starts on its own `issue-NN` branch (or a short-lived feature branch named after an issue).
+- Never commit directly on `main`, not even a one-line fix or a file rename. Every change starts on its own `issue-NN` branch (or a short-lived feature branch named after an issue). If you notice you committed on `main` by mistake, don't push; ask in Discord how to move the commit to a branch.
 - Always start a new branch from an up-to-date `main`: `git checkout main`, `git pull`, then `git checkout -b issue-NN`. Never paste a fresh copy of the course template (or any other project) into a branch; the app already exists on `main`, and a pasted template brings deleted files back.
 - Never merge into `main` unless the `ci-manoa-carpool` check on your branch is green.
 - Work only on your own issue branch. Don't commit to or push someone else's branch unless they ask you to.
 - Never run `git push --force`, `git reset --hard` on anything already pushed, `git rebase`, or `git push origin --delete` on someone else's branch. If git refuses a push, run `git pull` and merge instead.
 - Push your issue branch and wait for its `ci-manoa-carpool` check to pass before merging. Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge --no-edit main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge --no-edit issue-NN && git push`.
+- When you resolve a merge conflict, keep both people's work, then read the whole file before committing: no `<<<<<<<`/`=======`/`>>>>>>>` markers left, nothing duplicated or dropped, and every Markdown table row on a single line. Then run `npm run lint`.
+- If the `ci-manoa-carpool` check on `main` is red, fixing it comes before any other work. Open an issue for the fix, and don't merge anything else into `main` until it's green again.
+- Only the `ci-manoa-carpool` check has to be green before merging. The Vercel check can stay red until the deployment issue (#18) sets up the database and environment variables.
+- Use the exact file names and paths an issue gives (lowercase, for example `docs/team/samuel.md`), so nobody has to rename files afterward.
 - If something looks wrong (lost work, a strange conflict, a refused push), stop and ask in Discord before trying to fix it.
 - Commit small and often with clear messages. Everyone's commit history is part of their grade; the "Contribution tracker" issue shows each person's commits, lines, and issues.
 

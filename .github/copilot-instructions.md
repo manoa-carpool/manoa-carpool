@@ -13,7 +13,9 @@ The person you are talking to is a trusted team member and the owner of the issu
 
 ## The rules that matter most
 
-- Work on the issue's own `issue-NN` branch, started from an up-to-date `main`. Never commit directly to `main`, and never paste a fresh course template into a branch.
+- Work on the issue's own `issue-NN` branch, started from an up-to-date `main`. Never commit directly to `main` (not even a rename or one-line fix), and never paste a fresh course template into a branch.
 - Push the branch, wait for the `ci-manoa-carpool` check to pass, then merge into `main` with `git merge --no-edit`. Never force-push, hard-reset, or rebase.
 - An issue is only done when its branch is merged into `main` and pushed.
+- After resolving a merge conflict, re-read the file: keep both sides, no conflict markers, Markdown table rows on one line.
+- If the check on `main` is red, fixing it comes first.
 - Run `npm run lint` before merging. All database writes go through server actions in `src/lib/`.
