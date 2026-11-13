@@ -30,6 +30,18 @@ We build on the course's [nextjs-application-template](https://github.com/ics-so
 6. Riders and drivers rate each other (1–5). Anyone can report a no-show or a problem; admins review reports.
 7. The leaderboard ranks drivers by points for the semester.
 
+## Backend decisions (agreed Nov 12)
+
+| Decision | What we chose | Why |
+|---|---|---|
+| Where backend code lives | Server actions + Prisma, like the template and BowFolios | What everyone already knows; no API routes needed |
+| Backend files | Split by area: `dbActions.ts` (accounts), `rideActions.ts`, `requestActions.ts`, `points.ts`, `feedbackActions.ts` | Fewer merge conflicts with four people |
+| Sign-up | `@hawaii.edu` emails only, checked in `createUser`; real email verification is a possible M3 upgrade | Our "UH students only" safety feature |
+| Locations | A fixed list of Oahu areas (Kapolei, Ewa, Waipahu, Pearl City, Aiea, Mililani, Kaneohe, Kailua, Hawaii Kai, Kaimuki, Waikiki, Manoa campus, and so on), each with a map point and an approximate distance to campus | Easy search and filters, no home addresses stored |
+| Map | Leaflet + OpenStreetMap (`react-leaflet`), showing ride routes between areas | Free and needs no API key, so no secret to protect |
+| Points | Awarded only when both driver and rider confirm the ride: 10 per rider, +5 the first time a driver drives that rider, at most 2 counted rides per driver per day; miles come from the area-to-campus distance | Hard to farm points with a friend if there's a real prize |
+| Seats | Accepting a request runs in one transaction that re-counts accepted seats; seats left is calculated, never stored | No overbooking when two requests are accepted at once |
+
 ## Data model
 
 Based on Donald's draft (issue #6), adjusted to fit the template: ids are `Int` like the template, and `User` keeps the template's `email`, `password`, and `role` so sign-in keeps working.
@@ -37,7 +49,7 @@ Based on Donald's draft (issue #6), adjusted to fit the template: ids are `Int` 
 | Model | Key fields | Notes |
 |---|---|---|
 | `User` | `id`, `email` (unique, `@hawaii.edu`), `password`, `role` (USER/ADMIN), `firstName`, `lastName`, `homeArea`, `carDescription`, `seatsAvailable`, `sameGenderOnly`, `gender` (optional), `points`, `createdAt` | Template fields plus profile. Rating is calculated from `Rating`, not stored. |
-| `Ride` | `id`, `driverId` → User, `origin`, `destination`, `departureTime`, `seats`, `notes`, `status` (OPEN/FULL/COMPLETED/CANCELLED), `createdAt` | Seats left = `seats` minus accepted requests. |
+| `Ride` | `id`, `driverId` → User, `origin` and `destination` (area names from the fixed list), `departureTime`, `seats`, `notes`, `status` (OPEN/FULL/COMPLETED/CANCELLED), `createdAt` | Seats left = `seats` minus accepted requests. |
 | `RideRequest` | `id`, `rideId` → Ride, `riderId` → User, `status` (PENDING/ACCEPTED/DECLINED/CANCELLED), `driverConfirmed`, `riderConfirmed`, `pointsAwarded`, `createdAt` | Unique on (`rideId`, `riderId`). A driver can't request their own ride. |
 | `Rating` | `id`, `rideId`, `raterId`, `rateeId`, `score` (1–5), `comment`, `createdAt` | Unique on (`rideId`, `raterId`, `rateeId`). Only people who shared a confirmed ride can rate. |
 | `Report` | `id`, `reporterId`, `reportedUserId`, `rideId` (optional), `reason`, `details`, `status` (OPEN/RESOLVED/DISMISSED), `createdAt` | Only admins see all reports. |
@@ -51,7 +63,8 @@ All writes are server actions. Reads are Prisma queries called from server pages
 | Accounts | `createUser` (rejects non-`@hawaii.edu` emails), `updateProfile` | `src/lib/dbActions.ts` |
 | Rides | `createRide`, `cancelRide`, `getOpenRides(filters)`, `getRidesForDriver` | `src/lib/rideActions.ts` |
 | Requests | `requestSeat`, `cancelRequest`, `respondToRequest` (accept/decline in a transaction that checks seats), `confirmRide` (awards points once, when both confirm) | `src/lib/requestActions.ts` |
-| Points | `pointsForRide` (base points, bonus for a first ride with that rider), `getLeaderboard` | `src/lib/points.ts` |
+| Points | `pointsForRide` (10 per rider, +5 first ride with that rider, max 2 counted rides per day), `getLeaderboard` | `src/lib/points.ts` |
+| Areas and map | `AREAS` list with map points and distance to campus | `src/lib/areas.ts` |
 | Ratings and reports | `rateUser`, `getAverageRating`, `reportUser`, `resolveReport` (admin only) | `src/lib/feedbackActions.ts` |
 
 Rule of thumb: pages and forms never call Prisma directly to write. They call one of these functions, so the rules (UH email, seat limits, points once) live in one place.
