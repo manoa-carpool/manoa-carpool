@@ -1,44 +1,50 @@
-[![ci-nextjs-application-template](https://github.com/ics-software-engineering/nextjs-application-template/actions/workflows/ci.yml/badge.svg)](https://github.com/ics-software-engineering/nextjs-application-template/actions/workflows/ci.yml)
+# Manoa Carpool
 
-For details, please see http://ics-software-engineering.github.io/nextjs-application-template/.
+A ride-matching app for the UH Manoa community: students with empty seats meet students who need a ride. Built for ICS 314 from the course's [nextjs-application-template](https://github.com/ics-software-engineering/nextjs-application-template).
 
-## Installation
+- Project home page: https://manoa-carpool.github.io/
+- Team plan, backend design, and git workflow: [docs/project-plan.md](docs/project-plan.md)
+- Course requirements and deadlines: [docs/course-requirements.md](docs/course-requirements.md)
+- Rules for people and AI assistants working in this repo: [AGENTS.md](AGENTS.md)
 
-1. **Install PostgreSQL** and create a database for your app:
-	```bash
-	createdb nextjs-application-template
-	```
+## Install
 
-2. **Clone this template** (or use the "Use this template" button on GitHub to create your own repo).
+1. Install [Node.js](https://nodejs.org/) (LTS) and [PostgreSQL](https://www.postgresql.org/download/).
+2. Create a local database:
+   ```
+   createdb manoa-carpool
+   ```
+3. Clone this repo and install the libraries:
+   ```
+   git clone https://github.com/manoa-carpool/manoa-carpool.git
+   cd manoa-carpool
+   npm install
+   ```
+4. Copy `sample.env` to `.env` and set `DATABASE_URL` to your local database, for example:
+   ```
+   DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/manoa-carpool?schema=public"
+   ```
+   Never commit `.env`.
+5. Create the tables, generate the Prisma client, and load the sample data:
+   ```
+   npx prisma migrate dev
+   npx prisma generate
+   npm run seed
+   ```
 
-3. **Install dependencies:**
-	```bash
-	npm install
-	```
+## Run
 
-4. **Create your .env file:**
-	- Copy `sample.env` to `.env` and update the `DATABASE_URL` to match your PostgreSQL setup.
+```
+npm run dev
+```
 
-5. **Run database migrations:**
-	```bash
-	npx prisma migrate dev
-	```
+Open http://localhost:3000 and sign in as `john@foo.com` (user) or `admin@foo.com` (admin), both with password `changeme`. These are sample accounts for local development only.
 
-6. **Generate Prisma client:**
-	```bash
-	npx prisma generate
-	```
+## Check your work before merging
 
-7. **Seed the database:**
-	```bash
-	npm run seed
-	```
+```
+npm run lint
+npm run playwright
+```
 
-8. **Start the development server:**
-	```bash
-	npm run dev
-	```
-
-The app will be available at [http://localhost:3000](http://localhost:3000).
-
-See the [template documentation](http://ics-software-engineering.github.io/nextjs-application-template/) for more details and walkthroughs.
+ESLint must pass before you merge into `main`. The `ci-manoa-carpool` GitHub Action runs ESLint, a build, and the Playwright tests on every push to `main`.
