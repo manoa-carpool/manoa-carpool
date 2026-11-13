@@ -3,7 +3,8 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 on:
   push:
-    branches: [main, master]
+    # every issue branch is checked too, so problems show up before they reach main
+    branches: [main, master, 'issue-*']
   pull_request:
     branches: [main, master]
 jobs:

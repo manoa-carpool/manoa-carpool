@@ -1,11 +1,22 @@
 # GitHub issue and effort tracking instructions
 
+## Required on every project issue (no exceptions)
+
+These are mandatory. Treat them as requirements, not suggestions, and remind the person if any are missing.
+
+1. **Estimate before starting.** Before an issue moves to In Progress, it must have an estimate in hours, the estimator's name, and a comment explaining how the estimate was made, and the same values must be entered in the milestone board's `Estimated Effort (hours)` and `Estimator` fields. If they are missing, ask the owner for them before starting work.
+2. **Actuals before closing.** Before an issue is closed, it must record actual coding hours, non-coding hours, and the AI-assisted part of each (write 0 if none), and the board's `Coding Effort (hours)` and `Non-Coding Effort (hours)` fields must be filled in. If they are missing, ask the owner; never close the issue without them.
+3. **Use the issue format.** Every new project issue must follow `.github/ISSUE_TEMPLATE/idpm-task.md` exactly: the branch line, What to do, Done when, Depends on, Required steps to finish, and the required Effort tracking section. Only the task-specific parts change. Issues labeled `individual` (personal coursework) are the only exception.
+4. **Branch first, green check, then merge.** All work happens on the issue's `issue-NN` branch. Push the branch, wait for the `ci-manoa-carpool` check on that branch to pass, and only then merge into `main`. Never commit directly to `main`.
+
+These are graded: every milestone checklist requires recorded estimates and actual effort for each issue (E57B), and the course caps the team at 50% credit if the issues don't show who did what and when.
+
 When creating or updating GitHub issues for this repository, follow the course's [IDPM guidelines](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/reading-guidelines-idpm.html), [issue specification guidelines](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/reading-guidelines-github-issues.html), and [E57B effort estimation requirements](https://courses.ics.hawaii.edu/ics314f26/morea/project-management/experience-effort-estimation.html).
 
 - Use an action-oriented title, describe the concrete work and completion criteria, and link relevant requirements and related issues. Avoid duplicating work. For assignments, include the assignment identifier in the title.
 - Begin the body with `Do all work for this task in a branch called issue-XX`, replacing `XX` with the actual GitHub issue number. GitHub assigns the number after creation, so edit the body immediately afterward. Name branches `issue-<number>` and merge to main when complete.
 - Keep tasks small enough for approximately 2–3 days; one person is accountable for an in-progress task. Add relevant milestone work to the active GitHub Project, without creating future milestone projects prematurely.
-- Include an effort section with estimated time (hours), estimator, actual total time, coding effort, and non-coding effort. Use `Not yet recorded` when unknown. Never invent estimates, actuals, people, or time logs. Ask the responsible person for a reasoned estimate and post its basis in an issue comment.
+- Include an effort section with estimated time (hours), estimator, actual total time, coding effort, and non-coding effort. Placeholders read `REQUIRED before starting` (estimate, estimator) or `REQUIRED before closing` (actuals); they must be replaced with real values at those points. Never invent estimates, actuals, people, or time logs. Ask the responsible person for a reasoned estimate and post its basis in an issue comment.
 - Each milestone Project must include number fields `Estimated Effort (hours)`, `Coding Effort (hours)`, `Non-Coding Effort (hours)`, and text field `Estimator`. Enter the same honest values in the Project as they become known; an issue body alone does not satisfy the board requirement. Actual total is coding plus non-coding, not an additional amount. Update actuals when status changes and on completion.
 - Track actual work accurately, excluding breaks, with individual time logs or a timer. For AI-assisted coding, include time spent on prompt engineering, generation and quick post-processing, verification/debugging, and integration/refactoring in coding effort. AI work on documentation, design, learning, or meetings counts as non-coding. Breakdowns are subsets of actuals, not extra hours. Record AI tool/provider and model/version and representative prompts when needed for E57B reflection, without exposing secrets.
 - Do not count parent tracker effort again when it is already recorded on child issues; record only distinct actual work. Preserve existing issue text, estimates, tracking data, ownership, and statuses when updating issues.
@@ -37,7 +48,7 @@ Both repos have GitHub rules that block force-pushes on every branch and block d
 - Never commit directly on `main`. Every change starts on its own `issue-NN` branch (or a short-lived feature branch named after an issue).
 - Work only on your own issue branch. Don't commit to or push someone else's branch unless they ask you to.
 - Never run `git push --force`, `git reset --hard` on anything already pushed, `git rebase`, or `git push origin --delete` on someone else's branch. If git refuses a push, run `git pull` and merge instead.
-- Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge --no-edit main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge --no-edit issue-NN && git push`.
+- Push your issue branch and wait for its `ci-manoa-carpool` check to pass before merging. Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge --no-edit main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge --no-edit issue-NN && git push`.
 - If something looks wrong (lost work, a strange conflict, a refused push), stop and ask in Discord before trying to fix it.
 - Commit small and often with clear messages. Everyone's commit history is part of their grade; the "Contribution tracker" issue shows each person's commits, lines, and issues.
 

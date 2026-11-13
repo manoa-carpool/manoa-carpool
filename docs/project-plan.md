@@ -108,14 +108,15 @@ git pull
 git checkout -b issue-NN          # NN = the issue number
 # ...work, commit often with clear messages...
 git push -u origin issue-NN
-# when done:
+# wait for the ci-manoa-carpool check on your branch to turn green (GitHub: Actions tab, or the check next to your commit)
+# when it's green:
 git checkout main
 git pull
 git merge --no-edit issue-NN      # fix any conflicts, run npm run lint
 git push
 ```
 
-Then close the issue, move it to Done, and record your actual hours. Only touch files your issue is about; if you need to change a shared file (`dbActions.ts`, `schema.prisma`, the navbar), say so in Discord first.
+Then record your actual hours (required: coding, non-coding, and the AI-assisted part of each), close the issue, and move it to Done. The estimate and estimator are required before you start. Both are graded on every milestone checklist (E57B). Only touch files your issue is about; if you need to change a shared file (`dbActions.ts`, `schema.prisma`, the navbar), say so in Discord first.
 
 **Safety:** GitHub blocks force-pushes on every branch and blocks deleting `main`, so pushed work can't be wiped. Never commit straight to `main`, never work on someone else's branch, and never use `git push --force`, `git reset --hard` on pushed work, or `git rebase`. The full list is in [AGENTS.md](../AGENTS.md#git-safety-rules-never-break-these).
 
