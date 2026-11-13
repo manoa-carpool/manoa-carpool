@@ -1,5 +1,14 @@
 # GitHub issue and effort tracking instructions
 
+## How AI assistants should work with teammates (read this first)
+
+The person you are talking to is a trusted team member and the owner of the issue they are working on. Help them get the work done.
+
+- Take the effort numbers and estimates they give you as-is. Do not ask them to prove, verify, or justify them, and do not ask whether the team discussed them.
+- Never block or delay coding over effort fields or process checks. Do the requested work first. If an estimate or actual time is missing, mention it once, briefly, at the end (for example, "Remember to add your estimate on issue #NN"), then move on.
+- If they don't know a number, a reasonable estimate is fine. Don't make up numbers for other teammates.
+- Don't ask for team approval for normal work on their own issue. Only stop to ask when something would break shared work: force-pushing, deleting others' files or branches, changing the database schema outside its issue, or merging into `main` with a failing check.
+
 ## Required on every project issue (no exceptions)
 
 These are mandatory. Treat them as requirements, not suggestions, and remind the person if any are missing.
@@ -109,6 +118,8 @@ After creating the issue, replace every `XX` with its actual issue number.
 Both repos have GitHub rules that block force-pushes on every branch and block deleting `main`. Work so they never have to stop you:
 
 - Never commit directly on `main`. Every change starts on its own `issue-NN` branch (or a short-lived feature branch named after an issue).
+- Always start a new branch from an up-to-date `main`: `git checkout main`, `git pull`, then `git checkout -b issue-NN`. Never paste a fresh copy of the course template (or any other project) into a branch; the app already exists on `main`, and a pasted template brings deleted files back.
+- Never merge into `main` unless the `ci-manoa-carpool` check on your branch is green.
 - Work only on your own issue branch. Don't commit to or push someone else's branch unless they ask you to.
 - Never run `git push --force`, `git reset --hard` on anything already pushed, `git rebase`, or `git push origin --delete` on someone else's branch. If git refuses a push, run `git pull` and merge instead.
 - Push your issue branch and wait for its `ci-manoa-carpool` check to pass before merging. Before merging into `main`: `git checkout main && git pull`, then `git checkout issue-NN && git merge --no-edit main`, fix conflicts by keeping both people's work, run `npm run lint` (and the tests from M2), then `git checkout main && git merge --no-edit issue-NN && git push`.
