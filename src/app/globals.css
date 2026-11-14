@@ -2,13 +2,273 @@ html,
 body {
   --bs-light-rgb: 236, 236, 236;
   box-sizing: border-box;
-  height: 100%;
+  min-height: 100%;
   padding: 0;
   margin: 0;
 }
+
+body {
+  color: #292d31;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #8ccf9f;
+  outline-offset: 2px;
+}
+
 .wrapper {
-  box-sizing: border-box;
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.site-navbar {
+  position: relative;
+  z-index: 3;
+  min-height: 64px;
+  background: linear-gradient(100deg, #07583b, #064a34);
+  color: #fff;
+}
+
+.site-nav-inner {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 24px;
+}
+
+.site-brand {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-brand:hover {
+  color: #fff;
+}
+
+.site-brand > svg {
+  width: 39px;
+  height: 29px;
+}
+
+.site-brand > span:last-child > span {
+  color: #5fc382;
+  font-style: italic;
+}
+
+.site-brand-mark {
+  display: inline-grid;
+  width: 47px;
+  height: 43px;
+  place-items: center;
+  color: #fff;
+  font-size: 2.45rem;
+  font-weight: 900;
+}
+
+.site-nav-links {
+  display: flex;
+  min-height: 64px;
+  align-items: stretch;
+  justify-content: center;
+  gap: 6px;
+}
+
+.site-nav-links > a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  color: #f7fbf8;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav-links > a:hover,
+.site-nav-links > a.active {
+  color: #fff;
+}
+
+.site-nav-links > a.active::after {
+  position: absolute;
+  right: 12px;
+  bottom: 14px;
+  left: 12px;
+  height: 3px;
+  background: #64c786;
+  content: '';
+}
+
+.site-account {
+  display: flex;
+  min-height: 34px;
+  flex: 0 0 auto;
+  align-items: center;
+  padding-left: 13px;
+  border-left: 1px solid rgb(255 255 255 / 70%);
+}
+
+.site-account .dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-account .dropdown-toggle::after {
+  margin-left: 3px;
+}
+
+.site-account .dropdown-toggle:hover,
+.site-account .dropdown-toggle:focus {
+  color: #d7f0df;
+}
+
+.site-account .dropdown-menu svg {
+  margin-right: 7px;
+}
+
+.site-footer {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 24px;
+  background: #f0f3f1;
+  color: #5c6861;
+  font-size: 0.8rem;
+}
+
+.site-footer a {
+  color: #176444;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 930px) {
+  .site-nav-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 12px;
+    padding: 8px 14px 0;
+  }
+
+  .site-brand {
+    margin-right: auto;
+    font-size: 1.55rem;
+  }
+
+  .site-brand-mark {
+    width: 34px;
+    font-size: 2rem;
+  }
+
+  .site-brand > svg {
+    width: 31px;
+  }
+
+  .site-nav-links {
+    order: 3;
+    width: 100%;
+    min-height: 43px;
+    justify-content: space-around;
+  }
+
+  .site-nav-links > a {
+    padding: 0 8px;
+    font-size: 0.8rem;
+  }
+
+  .site-nav-links > a.active::after {
+    right: 8px;
+    bottom: 4px;
+    left: 8px;
+  }
+
+  .site-account {
+    min-height: 29px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-footer {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .site-nav-inner {
+    gap: 0 7px;
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .site-brand {
+    gap: 5px;
+    font-size: 1.36rem;
+  }
+
+  .site-brand-mark {
+    width: 27px;
+    font-size: 1.75rem;
+  }
+
+  .site-brand > svg {
+    width: 26px;
+  }
+
+  .site-account {
+    padding-left: 7px;
+  }
+
+  .site-account .dropdown-toggle {
+    gap: 5px;
+    padding: 6px;
+    font-size: 0.73rem;
+  }
+
+  .site-nav-links {
+    gap: 0;
+  }
+
+  .site-nav-links > a {
+    padding: 0 5px;
+    font-size: 0.68rem;
+  }
+
+  .site-nav-links > a.active::after {
+    right: 5px;
+    left: 5px;
+  }
 }
