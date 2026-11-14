@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ManoaRide | UH Mānoa Carpool",
+  title: "Manoa Carpool | UH Mānoa",
   description: "Share rides and get around the University of Hawaiʻi at Mānoa together.",
 };
 

@@ -73,7 +73,7 @@ const Home = () => {
     <main className={styles.home}>
       <section className={styles.hero} aria-labelledby="hero-title">
         <div className={styles.heroContent}>
-          <h1 id="hero-title">ManoaRide</h1>
+          <h1 id="hero-title">Manoa Carpool</h1>
           <p>
             Share rides. Build community.
             <br />

@@ -24,10 +24,10 @@ const NavBar: React.FC = () => {
   return (
     <header className="site-navbar">
       <div className="site-nav-inner">
-        <Link className="site-brand" href="/" aria-label="ManoaRide home">
+        <Link className="site-brand" href="/" aria-label="Manoa Carpool home">
           <span className="site-brand-mark" aria-hidden="true">U</span>
           <CarFrontFill aria-hidden="true" />
-          <span>Manoa<span>Ride</span></span>
+          <span>Manoa <span>Carpool</span></span>
         </Link>
         <nav className="site-nav-links" aria-label="Main navigation">
           <Link className={pathName === '/' ? 'active' : ''} href="/">Home</Link>
