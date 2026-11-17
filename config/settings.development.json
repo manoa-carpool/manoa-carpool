@@ -1,6 +1,25 @@
 {
   "defaultAccounts": [
-    { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN" },
-    { "email": "john@foo.com", "password": "changeme" }
+    { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "User", "homeArea": "manoa-campus" },
+    { "email": "john@foo.com", "password": "changeme", "firstName": "John", "lastName": "Foo", "homeArea": "pearl-city", "carDescription": "Silver Toyota Corolla", "seatsAvailable": 3, "points": 40 },
+    { "email": "kai@foo.com", "password": "changeme", "firstName": "Kai", "lastName": "Sample", "homeArea": "kapolei", "carDescription": "Blue Honda Civic", "seatsAvailable": 3, "points": 65 },
+    { "email": "leilani@foo.com", "password": "changeme", "firstName": "Leilani", "lastName": "Sample", "homeArea": "kaneohe", "carDescription": "White Nissan Leaf", "seatsAvailable": 2, "sameGenderOnly": true, "gender": "female", "points": 25 },
+    { "email": "mia@foo.com", "password": "changeme", "firstName": "Mia", "lastName": "Sample", "homeArea": "mililani", "points": 10 },
+    { "email": "noah@foo.com", "password": "changeme", "firstName": "Noah", "lastName": "Sample", "homeArea": "kapolei", "points": 0 },
+    { "email": "sam@foo.com", "password": "changeme", "firstName": "Sam", "lastName": "Sample", "homeArea": "waipahu", "points": 5 }
+  ],
+  "defaultRides": [
+    { "key": "john-am", "driver": "john@foo.com", "origin": "pearl-city", "destination": "manoa-campus", "daysFromNow": 1, "time": "07:30", "seats": 3, "notes": "Leaving from near Pearlridge. Can stop in Aiea." },
+    { "key": "john-pm", "driver": "john@foo.com", "origin": "manoa-campus", "destination": "pearl-city", "daysFromNow": 1, "time": "16:45", "seats": 3, "notes": "Pick up at the Sinclair Library bus stop." },
+    { "key": "kai-am", "driver": "kai@foo.com", "origin": "kapolei", "destination": "manoa-campus", "daysFromNow": 2, "time": "06:45", "seats": 2, "notes": "Early start to beat H-1 traffic." },
+    { "key": "leilani-am", "driver": "leilani@foo.com", "origin": "kaneohe", "destination": "manoa-campus", "daysFromNow": 3, "time": "08:00", "seats": 2, "notes": "Women riders only (same-gender setting)." },
+    { "key": "kai-past", "driver": "kai@foo.com", "origin": "kapolei", "destination": "manoa-campus", "daysFromNow": -3, "time": "07:00", "seats": 3, "notes": "Sample past ride for My Rides.", "status": "COMPLETED" }
+  ],
+  "defaultRequests": [
+    { "ride": "john-am", "rider": "mia@foo.com", "status": "ACCEPTED" },
+    { "ride": "john-am", "rider": "sam@foo.com", "status": "PENDING" },
+    { "ride": "kai-am", "rider": "noah@foo.com", "status": "PENDING" },
+    { "ride": "kai-past", "rider": "noah@foo.com", "status": "ACCEPTED", "driverConfirmed": true, "riderConfirmed": true, "pointsAwarded": true },
+    { "ride": "kai-past", "rider": "sam@foo.com", "status": "ACCEPTED", "driverConfirmed": true, "riderConfirmed": true, "pointsAwarded": true }
   ]
 }
