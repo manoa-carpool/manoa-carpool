@@ -22,7 +22,7 @@
   background-color: #14583e;
   background-image:
     linear-gradient(90deg, rgb(5 29 20 / 78%) 0%, rgb(5 29 20 / 51%) 42%, rgb(5 29 20 / 5%) 100%),
-    url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2000&q=85');
+    url('/manoa-carpool-campus.png');
   background-position: center 54%;
   background-size: cover;
 }
