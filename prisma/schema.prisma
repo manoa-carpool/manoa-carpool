@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Manoa Carpool database. The data model is explained in docs/project-plan.md#data-model.
+// Areas (User.homeArea, Ride.origin, Ride.destination) store area ids from src/lib/areas.ts, like "pearl-city".
 
 generator client {
   provider = "prisma-client-js"
@@ -17,10 +14,116 @@ enum Role {
   ADMIN
 }
 
-model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  role     Role   @default(USER)
+enum RideStatus {
+  OPEN
+  FULL
+  COMPLETED
+  CANCELLED
 }
 
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELLED
+}
+
+enum ReportStatus {
+  OPEN
+  RESOLVED
+  DISMISSED
+}
+
+// template fields (email, password, role) keep sign-in working; the rest is the profile
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  password       String
+  role           Role     @default(USER)
+  firstName      String   @default("")
+  lastName       String   @default("")
+  homeArea       String?
+  carDescription String?
+  seatsAvailable Int      @default(0)
+  sameGenderOnly Boolean  @default(false)
+  gender         String?
+  points         Int      @default(0)
+  createdAt      DateTime @default(now())
+
+  ridesDriven     Ride[]        @relation("DriverRides")
+  rideRequests    RideRequest[] @relation("RiderRequests")
+  ratingsGiven    Rating[]      @relation("RatingsGiven")
+  ratingsReceived Rating[]      @relation("RatingsReceived")
+  reportsMade     Report[]      @relation("ReportsMade")
+  reportsAgainst  Report[]      @relation("ReportsAgainst")
+}
+
+// seats left is never stored: seats minus this ride's ACCEPTED requests
+model Ride {
+  id            Int        @id @default(autoincrement())
+  driverId      Int
+  driver        User       @relation("DriverRides", fields: [driverId], references: [id], onDelete: Cascade)
+  origin        String
+  destination   String
+  departureTime DateTime
+  seats         Int
+  notes         String     @default("")
+  status        RideStatus @default(OPEN)
+  createdAt     DateTime   @default(now())
+
+  requests RideRequest[]
+  ratings  Rating[]
+  reports  Report[]
+
+  @@index([status, departureTime])
+  @@index([driverId])
+}
+
+// one request per rider per ride; points are awarded once, after both sides confirm
+model RideRequest {
+  id              Int           @id @default(autoincrement())
+  rideId          Int
+  ride            Ride          @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  riderId         Int
+  rider           User          @relation("RiderRequests", fields: [riderId], references: [id], onDelete: Cascade)
+  status          RequestStatus @default(PENDING)
+  driverConfirmed Boolean       @default(false)
+  riderConfirmed  Boolean       @default(false)
+  pointsAwarded   Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+
+  @@unique([rideId, riderId])
+  @@index([riderId])
+}
+
+model Rating {
+  id        Int      @id @default(autoincrement())
+  rideId    Int
+  ride      Ride     @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  raterId   Int
+  rater     User     @relation("RatingsGiven", fields: [raterId], references: [id], onDelete: Cascade)
+  rateeId   Int
+  ratee     User     @relation("RatingsReceived", fields: [rateeId], references: [id], onDelete: Cascade)
+  score     Int
+  comment   String   @default("")
+  createdAt DateTime @default(now())
+
+  @@unique([rideId, raterId, rateeId])
+  @@index([rateeId])
+}
+
+model Report {
+  id             Int          @id @default(autoincrement())
+  reporterId     Int
+  reporter       User         @relation("ReportsMade", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUserId Int
+  reportedUser   User         @relation("ReportsAgainst", fields: [reportedUserId], references: [id], onDelete: Cascade)
+  rideId         Int?
+  ride           Ride?        @relation(fields: [rideId], references: [id], onDelete: SetNull)
+  reason         String
+  details        String       @default("")
+  status         ReportStatus @default(OPEN)
+  createdAt      DateTime     @default(now())
+
+  @@index([status])
+}
