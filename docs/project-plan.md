@@ -48,11 +48,15 @@ Based on Donald's draft (issue #6), adjusted to fit the template: ids are `Int` 
 
 | Model | Key fields | Notes |
 |---|---|---|
-| `User` | `id`, `email` (unique, `@hawaii.edu`), `password`, `role` (USER/ADMIN), `firstName`, `lastName`, `homeArea`, `carDescription`, `seatsAvailable`, `sameGenderOnly`, `gender` (optional), `points`, `createdAt` | Template fields plus profile. Rating is calculated from `Rating`, not stored. |
-| `Ride` | `id`, `driverId` → User, `origin` and `destination` (area names from the fixed list), `departureTime`, `seats`, `notes`, `status` (OPEN/FULL/COMPLETED/CANCELLED), `createdAt` | Seats left = `seats` minus accepted requests. |
-| `RideRequest` | `id`, `rideId` → Ride, `riderId` → User, `status` (PENDING/ACCEPTED/DECLINED/CANCELLED), `driverConfirmed`, `riderConfirmed`, `pointsAwarded`, `createdAt` | Unique on (`rideId`, `riderId`). A driver can't request their own ride. |
-| `Rating` | `id`, `rideId`, `raterId`, `rateeId`, `score` (1–5), `comment`, `createdAt` | Unique on (`rideId`, `raterId`, `rateeId`). Only people who shared a confirmed ride can rate. |
-| `Report` | `id`, `reporterId`, `reportedUserId`, `rideId` (optional), `reason`, `details`, `status` (OPEN/RESOLVED/DISMISSED), `createdAt` | Only admins see all reports. |
+| `User` | `id`, `email` (unique, `@hawaii.edu` for real sign-ups), `password`, `role` (USER/ADMIN), `firstName`, `lastName`, `homeArea` (optional area id), `carDescription` (optional), `seatsAvailable`, `sameGenderOnly`, `gender` (optional), `points`, `createdAt` | Template fields plus profile. Rating is calculated from `Rating`, not stored. |
+| `Ride` | `id`, `driverId` → User, `origin` and `destination` (area ids from `src/lib/areas.ts`, like `pearl-city`), `departureTime`, `seats`, `notes`, `status` (OPEN/FULL/COMPLETED/CANCELLED), `createdAt` | Seats left = `seats` minus accepted requests, never stored. Indexed on (`status`, `departureTime`) for Find a Ride. |
+| `RideRequest` | `id`, `rideId` → Ride, `riderId` → User, `status` (PENDING/ACCEPTED/DECLINED/CANCELLED), `driverConfirmed`, `riderConfirmed`, `pointsAwarded`, `createdAt` | Unique on (`rideId`, `riderId`). A driver can't request their own ride (checked in `requestSeat`). |
+| `Rating` | `id`, `rideId` → Ride, `raterId` → User, `rateeId` → User, `score` (1–5), `comment`, `createdAt` | Unique on (`rideId`, `raterId`, `rateeId`). Only people who shared a confirmed ride can rate (checked in `rateUser`). |
+| `Report` | `id`, `reporterId` → User, `reportedUserId` → User, `rideId` (optional), `reason`, `details`, `status` (OPEN/RESOLVED/DISMISSED), `createdAt` | Only admins see all reports. |
+
+Deleting a user or ride deletes their rides, requests and ratings (cascade); a report keeps its row if its ride is deleted.
+
+**Sample data:** `npm run seed` loads the fake accounts, rides and requests in `config/settings.development.json` (all `@foo.com`, password `changeme`; `admin@foo.com` is the admin). Ride dates are "days from today", so the samples stay upcoming. Seeding twice is safe: users are updated, and rides are only added to an empty table.
 
 ## Backend functions
 
