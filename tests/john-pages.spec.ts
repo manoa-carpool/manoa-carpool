@@ -34,6 +34,8 @@ test('the leaderboard page shows a podium, re-sorts, and highlights the signed-i
   await expect(
     customUserPage.getByRole('heading', { name: 'Leaderboard', exact: true })
   ).toBeVisible({ timeout: 10000 });
+  await customUserPage.getByRole('button', { name: 'Skip animation' }).click();
+  await expect(customUserPage.getByRole('button', { name: 'Skip animation' })).toBeHidden();
   // John is third on points, so he is on the podium with the You badge
   await expect(customUserPage.getByTestId('podium')).toContainText('John Doe');
   await expect(customUserPage.getByTestId('podium')).toContainText('You');
@@ -43,5 +45,7 @@ test('the leaderboard page shows a podium, re-sorts, and highlights the signed-i
   await customUserPage.getByRole('button', { name: 'Miles' }).click();
   await expect(customUserPage.getByRole('heading', { name: 'Top by miles' })).toBeVisible();
   await expect(customUserPage.getByTestId('podium')).toContainText('Devin P.');
+  await expect(customUserPage.getByRole('button', { name: 'Miles' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(customUserPage.getByRole('listitem').filter({ hasText: 'Rank 1' })).toContainText('Robert K.');
   await expect(customUserPage.getByTestId('leaderboard-you')).toContainText('John Doe');
 });

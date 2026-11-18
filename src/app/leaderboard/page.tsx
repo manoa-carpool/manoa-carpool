@@ -82,12 +82,12 @@ const sorts: { key: SortKey; label: string; heading: string }[] = [
 ];
 
 const green = '#024731';
-const orange = '#bf5b20';
-const gold = '#e0a82e';
+const orange = '#a84c17';
+const ringColors = { 1: '#e0a82e', 2: '#a8afb5', 3: '#b9824f' };
 
 // Podium intro: blocks rise 3rd, 2nd, 1st; then the avatar and name fade in.
-// Plays once on page load. Clicking the podium sets animating to false, which
-// removes the animation classes and shows the final state.
+// Plays once on page load. Skip it with the button, or it ends by itself;
+// either way animating becomes false, which removes the animation classes.
 const podiumCss = `
 @keyframes podium-rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 @keyframes podium-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -105,18 +105,18 @@ const initials = (name: string) => name
   .slice(0, 2);
 
 const formatValue = (key: SortKey, value: number) => {
-  if (key === 'rating') return `⭐ ${value.toFixed(1)}`;
+  if (key === 'rating') return `⭐ ${value.toFixed(2)}`;
   if (key === 'points') return `${value} pts`;
   if (key === 'miles') return `${value} mi`;
   return `${value} students`;
 };
 
-// podium order: 2nd, 1st, 3rd (left to right) with block height and tint
+// podium order: 2nd, 1st, 3rd (left to right) with block height, color and animation delay
 const podiumSlots = [
-  { place: 2, height: 90, background: '#cfe3d6', delay: 250 },
-  { place: 1, height: 130, background: '#a9cdb8', delay: 500 },
-  { place: 3, height: 66, background: '#e3f1e8', delay: 0 },
-];
+  { place: 2, height: 110, background: '#7fae96', numeral: '#ffffff', delay: 250 },
+  { place: 1, height: 160, background: green, numeral: '#ffffff', delay: 500 },
+  { place: 3, height: 80, background: '#cfe3d6', numeral: green, delay: 0 },
+] as const;
 
 const LeaderboardPage = () => {
   const { data: session } = useSession();
@@ -125,17 +125,23 @@ const LeaderboardPage = () => {
   const [sortKey, setSortKey] = useState<SortKey>('points');
   const [animating, setAnimating] = useState(true);
 
-  // ties are broken by points, then name
-  const ranked = leaderboard
+  // ties are broken by points, then name; tied drivers share a rank ("T-2")
+  const sorted = leaderboard
     .map((driver) => ({ ...driver, ...driver.stats[period] }))
     .sort((a, b) => b[sortKey] - a[sortKey]
       || b.points - a.points
       || a.name.localeCompare(b.name));
+  const ranked = sorted.map((driver) => {
+    const firstIndex = sorted.findIndex((other) => other[sortKey] === driver[sortKey]);
+    const tied = sorted.filter((other) => other[sortKey] === driver[sortKey]).length > 1;
+    return { ...driver, rank: firstIndex + 1, tied };
+  });
 
   const podium = ranked.slice(0, 3);
   const rest = ranked.slice(3);
-  const sortInfo = sorts.find((item) => item.key === sortKey)!;
-  const periodLabel = periods.find((item) => item.value === period)!.label;
+  const sortInfo = sorts.find((item) => item.key === sortKey) ?? sorts[0];
+  const periodLabel = periods.find((item) => item.value === period)?.label ?? '';
+  const activeCell = (key: SortKey) => (key === sortKey ? { backgroundColor: '#eef6f0', fontWeight: 600 } : undefined);
 
   return (
     <main style={{ background: '#f5f8f5', minHeight: '100vh' }}>
@@ -143,7 +149,7 @@ const LeaderboardPage = () => {
         <div className="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-3">
           <div>
             <h1 className="fw-bold mb-1">Leaderboard</h1>
-            <p className="text-muted mb-0">
+            <p className="text-muted mb-0" aria-live="polite">
               Top drivers by {sortInfo.heading}, {periodLabel}. Sample data for the mockup.
             </p>
           </div>
@@ -160,7 +166,8 @@ const LeaderboardPage = () => {
           </Form.Group>
         </div>
 
-        <div className="d-flex flex-wrap gap-2 mb-4" role="group" aria-label="Sort drivers by">
+        <div className="d-flex flex-wrap align-items-center gap-2 mb-4" role="group" aria-label="Sort drivers by">
+          <span className="small text-muted me-1">Sort by</span>
           {sorts.map((item) => (
             <Button
               key={item.key}
@@ -176,16 +183,21 @@ const LeaderboardPage = () => {
         </div>
 
         {/* Podium */}
-        <Card className="shadow-sm mb-5" style={{ background: 'linear-gradient(#eef6f0, #ffffff)' }}>
+        <Card className="shadow-sm mb-4" style={{ background: 'linear-gradient(#eef6f0, #ffffff)' }}>
           <Card.Body className="px-3 pt-4 pb-0">
-            <h2 className="h5 fw-bold text-center mb-4">Top by {sortInfo.heading}</h2>
+            <div className="d-flex justify-content-center align-items-center gap-3 mb-4">
+              <h2 className="h5 fw-bold mb-0">Top by {sortInfo.heading}</h2>
+              {animating && (
+                <Button size="sm" variant="link" className="p-0" onClick={() => setAnimating(false)}>
+                  Skip animation
+                </Button>
+              )}
+            </div>
             <style>{podiumCss}</style>
-            { }
-            <div
-              className={`d-flex align-items-end justify-content-center gap-2 gap-md-3${animating ? ' podium-anim' : ''}`}
+            <ol
+              aria-label="Top three drivers"
+              className={`list-unstyled d-flex align-items-end justify-content-center gap-2 gap-md-3 mb-0${animating ? ' podium-anim' : ''}`}
               data-testid="podium"
-              title={animating ? 'Click to skip the animation' : undefined}
-              onClick={() => setAnimating(false)}
             >
               {podiumSlots.map((slot) => {
                 const driver = podium[slot.place - 1];
@@ -193,39 +205,45 @@ const LeaderboardPage = () => {
                 const isYou = driver.email === currentEmail;
                 const size = slot.place === 1 ? 72 : 56;
                 return (
-                  <div
+                  <li
                     key={slot.place}
                     className="d-flex flex-column align-items-center"
-                    style={{ flex: '1 1 0', maxWidth: 170 }}
+                    style={{ flex: '1 1 0', minWidth: 0, maxWidth: 170 }}
                   >
                     <div
                       className="podium-fade d-flex flex-column align-items-center"
                       style={{ animationDelay: `${slot.delay + 600}ms` }}
+                      onAnimationEnd={slot.place === 1 ? () => setAnimating(false) : undefined}
                     >
-                    <div
-                      aria-hidden="true"
-                      className="d-flex align-items-center justify-content-center fw-bold"
-                      style={{
-                        width: size,
-                        height: size,
-                        borderRadius: '50%',
-                        background: '#fff',
-                        color: green,
-                        border: `3px solid ${slot.place === 1 ? gold : isYou ? green : '#fff'}`,
-                        boxShadow: '0 1px 4px rgba(0,0,0,.15)',
-                      }}
-                    >
-                      {initials(driver.name)}
+                      <div
+                        aria-hidden="true"
+                        className="d-flex align-items-center justify-content-center fw-bold"
+                        style={{
+                          width: size,
+                          height: size,
+                          borderRadius: '50%',
+                          background: '#dcebe1',
+                          color: green,
+                          border: `3px solid ${ringColors[slot.place]}`,
+                          outline: isYou ? `2px solid ${green}` : undefined,
+                          outlineOffset: 2,
+                        }}
+                      >
+                        {initials(driver.name)}
+                      </div>
+                      <div className="fw-semibold mt-2 text-center">
+                        <span className="visually-hidden">
+                          {driver.tied ? `Tied rank ${driver.rank}` : `Rank ${driver.rank}`}
+                          ,{' '}
+                        </span>
+                        {driver.name}
+                        {isYou && <Badge className="ms-1" style={{ backgroundColor: green }}>You</Badge>}
+                      </div>
+                      <div className="fw-bold fs-5 mb-2" style={{ color: orange }}>
+                        {formatValue(sortKey, driver[sortKey])}
+                      </div>
                     </div>
-                    <div className="fw-semibold mt-2 text-center">
-                      {driver.name}
-                      {isYou && <Badge className="ms-1" style={{ backgroundColor: green }}>You</Badge>}
-                    </div>
-                    <div className="small mb-2" style={{ color: orange }}>
-                      {formatValue(sortKey, driver[sortKey])}
-                    </div>
-                    </div>
-                    <div className="w-100 position-relative" style={{ height: slot.height }}>
+                    <div className="w-100 position-relative" style={{ height: slot.height }} aria-hidden="true">
                       <div
                         className="podium-block position-absolute top-0 start-0 w-100 h-100"
                         style={{
@@ -236,53 +254,62 @@ const LeaderboardPage = () => {
                       />
                       <div
                         className="podium-fade position-relative text-center fw-bold fs-3 pt-2"
-                        style={{ color: green, animationDelay: `${slot.delay + 350}ms` }}
+                        style={{ color: slot.numeral, animationDelay: `${slot.delay + 350}ms` }}
                       >
-                        {slot.place}
+                        {driver.tied ? `T-${driver.rank}` : driver.rank}
                       </div>
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ol>
           </Card.Body>
         </Card>
 
         {/* Rest of the drivers */}
         <h2 className="h5 fw-bold mb-3">Rankings</h2>
         <Card className="shadow-sm">
-          <Card.Body className="p-4">
+          <Card.Body className="p-2 p-md-4">
             <Table responsive hover className="align-middle mb-0">
               <thead>
                 <tr>
                   <th>Rank</th>
                   <th>Driver</th>
-                  <th>Points</th>
-                  <th>Students Driven</th>
-                  <th>Miles</th>
-                  <th>Rating</th>
+                  <th style={activeCell('points')} aria-sort={sortKey === 'points' ? 'descending' : undefined}>Points</th>
+                  <th style={activeCell('studentsDriven')} aria-sort={sortKey === 'studentsDriven' ? 'descending' : undefined}>Students Driven</th>
+                  <th style={activeCell('miles')} aria-sort={sortKey === 'miles' ? 'descending' : undefined}>Miles</th>
+                  <th style={activeCell('rating')} aria-sort={sortKey === 'rating' ? 'descending' : undefined}>Rating</th>
                 </tr>
               </thead>
               <tbody>
-                {rest.map((driver, index) => {
+                {rest.map((driver) => {
                   const isYou = driver.email === currentEmail;
                   return (
                     <tr
                       key={driver.email}
                       data-testid={isYou ? 'leaderboard-you' : undefined}
-                      style={isYou ? { backgroundColor: '#e3f1e8', fontWeight: 600 } : undefined}
+                      style={isYou ? { fontWeight: 600 } : undefined}
                     >
-                      <td>{index + 4}</td>
-                      <td>
+                      <td style={isYou ? { backgroundColor: '#cfe3d6' } : undefined}>
+                        {driver.tied ? `T-${driver.rank}` : driver.rank}
+                      </td>
+                      <td style={isYou ? { backgroundColor: '#cfe3d6' } : undefined}>
                         {driver.name}
                         {isYou && (
                           <Badge className="ms-2" style={{ backgroundColor: green }}>You</Badge>
                         )}
                       </td>
-                      <td style={{ color: orange }}>{driver.points}</td>
-                      <td>{driver.studentsDriven}</td>
-                      <td>{driver.miles}</td>
-                      <td>⭐ {driver.rating.toFixed(1)}</td>
+                      {(['points', 'studentsDriven', 'miles', 'rating'] as SortKey[]).map((key) => (
+                        <td
+                          key={key}
+                          style={{
+                            ...(isYou ? { backgroundColor: '#cfe3d6' } : activeCell(key)),
+                            color: key === sortKey ? orange : undefined,
+                          }}
+                        >
+                          {key === 'rating' ? `⭐ ${driver.rating.toFixed(2)}` : driver[key]}
+                        </td>
+                      ))}
                     </tr>
                   );
                 })}
