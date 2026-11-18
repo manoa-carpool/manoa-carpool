@@ -32,9 +32,10 @@ const NavBar: React.FC = () => {
         </Link>
         <nav className="site-nav-links" aria-label="Main navigation">
           <Link className={pathName === '/' ? 'active' : ''} href="/">Home</Link>
-          <Link href="/#available-rides">Find a Ride</Link>
+          <Link className={pathName === '/rides' ? 'active' : ''} href="/rides">Find a Ride</Link>
           <Link className={pathName === '/drive' ? 'active' : ''} href="/drive">Offer a Ride</Link>
           <Link href="/drive">My Rides</Link>
+          <Link className={pathName === '/leaderboard' ? 'active' : ''} href="/leaderboard">Leaderboard</Link>
           <Link href={profileLink}>Profile</Link>
           {currentUser && role === 'ADMIN' && (
             <Link className={pathName === '/admin' ? 'active' : ''} href="/admin">Admin</Link>

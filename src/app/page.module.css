@@ -170,6 +170,7 @@
 }
 
 .searchCard h2,
+.searchCard .pageTitle,
 .availableCard h2 {
   margin: 0;
   font-size: 1.32rem;
@@ -479,6 +480,17 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   clip-path: inset(50%);
+}
+
+/* landing page: rides leaving soon, one column (the search and map live on /rides) */
+.soonContent {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 20px 26px;
+}
+
+.soonContent .availableCard {
+  min-height: 0;
 }
 
 @media (min-width: 1440px) {
