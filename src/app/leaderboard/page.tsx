@@ -85,6 +85,19 @@ const green = '#024731';
 const orange = '#bf5b20';
 const gold = '#e0a82e';
 
+// Podium intro: blocks rise 3rd, 2nd, 1st; then the avatar and name fade in.
+// Plays once on page load. Clicking the podium sets animating to false, which
+// removes the animation classes and shows the final state.
+const podiumCss = `
+@keyframes podium-rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes podium-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.podium-anim .podium-block { transform-origin: bottom; animation: podium-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.podium-anim .podium-fade { animation: podium-fade 400ms ease-out backwards; }
+@media (prefers-reduced-motion: reduce) {
+  .podium-anim .podium-block, .podium-anim .podium-fade { animation: none; }
+}
+`;
+
 const initials = (name: string) => name
   .split(' ')
   .map((part) => part[0])
@@ -100,9 +113,9 @@ const formatValue = (key: SortKey, value: number) => {
 
 // podium order: 2nd, 1st, 3rd (left to right) with block height and tint
 const podiumSlots = [
-  { place: 2, height: 90, background: '#cfe3d6' },
-  { place: 1, height: 130, background: '#a9cdb8' },
-  { place: 3, height: 66, background: '#e3f1e8' },
+  { place: 2, height: 90, background: '#cfe3d6', delay: 250 },
+  { place: 1, height: 130, background: '#a9cdb8', delay: 500 },
+  { place: 3, height: 66, background: '#e3f1e8', delay: 0 },
 ];
 
 const LeaderboardPage = () => {
@@ -110,6 +123,7 @@ const LeaderboardPage = () => {
   const currentEmail = session?.user?.email;
   const [period, setPeriod] = useState<Period>('fall-2026');
   const [sortKey, setSortKey] = useState<SortKey>('points');
+  const [animating, setAnimating] = useState(true);
 
   // ties are broken by points, then name
   const ranked = leaderboard
@@ -165,7 +179,14 @@ const LeaderboardPage = () => {
         <Card className="shadow-sm mb-5" style={{ background: 'linear-gradient(#eef6f0, #ffffff)' }}>
           <Card.Body className="px-3 pt-4 pb-0">
             <h2 className="h5 fw-bold text-center mb-4">Top by {sortInfo.heading}</h2>
-            <div className="d-flex align-items-end justify-content-center gap-2 gap-md-3" data-testid="podium">
+            <style>{podiumCss}</style>
+            { }
+            <div
+              className={`d-flex align-items-end justify-content-center gap-2 gap-md-3${animating ? ' podium-anim' : ''}`}
+              data-testid="podium"
+              title={animating ? 'Click to skip the animation' : undefined}
+              onClick={() => setAnimating(false)}
+            >
               {podiumSlots.map((slot) => {
                 const driver = podium[slot.place - 1];
                 if (!driver) return null;
@@ -173,10 +194,14 @@ const LeaderboardPage = () => {
                 const size = slot.place === 1 ? 72 : 56;
                 return (
                   <div
-                    key={driver.email}
+                    key={slot.place}
                     className="d-flex flex-column align-items-center"
                     style={{ flex: '1 1 0', maxWidth: 170 }}
                   >
+                    <div
+                      className="podium-fade d-flex flex-column align-items-center"
+                      style={{ animationDelay: `${slot.delay + 600}ms` }}
+                    >
                     <div
                       aria-hidden="true"
                       className="d-flex align-items-center justify-content-center fw-bold"
@@ -199,16 +224,22 @@ const LeaderboardPage = () => {
                     <div className="small mb-2" style={{ color: orange }}>
                       {formatValue(sortKey, driver[sortKey])}
                     </div>
-                    <div
-                      className="w-100 d-flex justify-content-center fw-bold fs-3 pt-2"
-                      style={{
-                        height: slot.height,
-                        background: slot.background,
-                        color: green,
-                        borderRadius: '10px 10px 0 0',
-                      }}
-                    >
-                      {slot.place}
+                    </div>
+                    <div className="w-100 position-relative" style={{ height: slot.height }}>
+                      <div
+                        className="podium-block position-absolute top-0 start-0 w-100 h-100"
+                        style={{
+                          background: slot.background,
+                          borderRadius: '10px 10px 0 0',
+                          animationDelay: `${slot.delay}ms`,
+                        }}
+                      />
+                      <div
+                        className="podium-fade position-relative text-center fw-bold fs-3 pt-2"
+                        style={{ color: green, animationDelay: `${slot.delay + 350}ms` }}
+                      >
+                        {slot.place}
+                      </div>
                     </div>
                   </div>
                 );
