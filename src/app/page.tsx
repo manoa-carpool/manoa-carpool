@@ -153,7 +153,7 @@ const Home = () => {
                 <h2>Available Rides</h2>
                 <span className={styles.demoLabel}>Demo listings</span>
               </div>
-              <Link href="/list">View All <ArrowRight aria-hidden="true" /></Link>
+              <Link href="/drive">View All <ArrowRight aria-hidden="true" /></Link>
             </div>
             {visibleRides.length ? (
               <div className={styles.rideList}>
