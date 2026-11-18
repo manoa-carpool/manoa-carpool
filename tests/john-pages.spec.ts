@@ -26,3 +26,14 @@ test('a regular user can sign in', async ({ getUserPage }) => {
     customUserPage.getByRole('heading', { name: 'Available Rides', exact: true })
   ).toBeVisible({ timeout: 5000 });
 });
+
+test('the leaderboard page ranks drivers and highlights the signed-in user', async ({ getUserPage }) => {
+  const customUserPage = await getUserPage('john@foo.com', 'changeme');
+  await customUserPage.goto('http://localhost:3000/leaderboard');
+
+  await expect(
+    customUserPage.getByRole('heading', { name: 'Leaderboard', exact: true })
+  ).toBeVisible({ timeout: 10000 });
+  await expect(customUserPage.getByRole('columnheader', { name: 'Students Driven' })).toBeVisible();
+  await expect(customUserPage.getByTestId('leaderboard-you')).toContainText('John Doe');
+});
