@@ -11,21 +11,18 @@ test('a regular user can sign in', async ({ getUserPage }) => {
   await expect(
     customUserPage.getByRole('link', { name: 'Manoa Carpool home' })
   ).toBeVisible({ timeout: 5000 });
-  await expect(
-    customUserPage.getByRole('link', { name: 'Offer a Ride' })
-  ).toBeVisible({ timeout: 5000 });
-  await expect(
-    customUserPage.getByRole('link', { name: 'Find a Ride' })
-  ).toBeVisible({ timeout: 5000 });
-
+  // look inside the navbar only: the landing page also has a "Find a Ride" link
   const navigation = customUserPage.getByRole('navigation', { name: 'Main navigation' });
+  await expect(navigation.getByRole('link', { name: 'Offer a Ride' })).toBeVisible({ timeout: 5000 });
+  await expect(navigation.getByRole('link', { name: 'Find a Ride' })).toBeVisible({ timeout: 5000 });
+
   await navigation.getByRole('link', { name: 'Offer a Ride' }).click();
   await expect(
-    customUserPage.getByRole('heading', { name: 'Drive' })
+    customUserPage.getByRole('heading', { name: 'Drive', exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await navigation.getByRole('link', { name: 'Find a Ride' }).click();
   await expect(
-    customUserPage.getByRole('heading', { name: 'Available Rides' })
+    customUserPage.getByRole('heading', { name: 'Available Rides', exact: true })
   ).toBeVisible({ timeout: 5000 });
 });
