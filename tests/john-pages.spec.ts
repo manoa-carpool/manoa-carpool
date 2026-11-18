@@ -30,12 +30,18 @@ test('a regular user can sign in', async ({ getUserPage }) => {
   await navigation.getByRole('link', { name: 'Offer a Ride' }).click();
 
   await expect(
-    customUserPage.getByRole('heading', { name: 'Drive' })
+    customUserPage.getByRole('heading', {
+      name: 'Drive',
+      exact: true,
+    })
   ).toBeVisible({ timeout: 5000 });
 
   await navigation.getByRole('link', { name: 'Find a Ride' }).click();
 
   await expect(
-    customUserPage.getByRole('heading', { name: 'Available Rides' })
+    customUserPage.getByRole('heading', {
+      name: 'Available Rides',
+      exact: true,
+    })
   ).toBeVisible({ timeout: 5000 });
 });
