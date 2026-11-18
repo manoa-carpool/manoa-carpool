@@ -63,9 +63,10 @@
 }
 
 .route {
-  display: inline-block; /* keeps the whole route on one line; it moves down together if it does not fit */
+  display: block; /* the route always sits on its own line under the tag and date */
   white-space: nowrap;
-  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .detail {
