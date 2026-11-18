@@ -183,16 +183,22 @@ const LeaderboardPage = () => {
         </div>
 
         {/* Podium */}
-        <Card className="shadow-sm mb-4" style={{ background: 'linear-gradient(#eef6f0, #ffffff)' }}>
+        <Card className="shadow-sm mb-4 position-relative" style={{ background: 'linear-gradient(#eef6f0, #ffffff)' }}>
           <Card.Body className="px-3 pt-4 pb-0">
-            <div className="d-flex justify-content-center align-items-center gap-3 mb-4">
-              <h2 className="h5 fw-bold mb-0">Top by {sortInfo.heading}</h2>
-              {animating && (
-                <Button size="sm" variant="link" className="p-0" onClick={() => setAnimating(false)}>
-                  Skip animation
-                </Button>
-              )}
-            </div>
+            <h2 className="h5 fw-bold text-center mb-4">Top by {sortInfo.heading}</h2>
+            <Button
+              size="sm"
+              variant="outline-secondary"
+              className="position-absolute top-0 end-0 m-2"
+              style={{
+                opacity: animating ? 1 : 0,
+                visibility: animating ? 'visible' : 'hidden',
+                transition: 'opacity 400ms ease, visibility 400ms',
+              }}
+              onClick={() => setAnimating(false)}
+            >
+              Skip animation
+            </Button>
             <style>{podiumCss}</style>
             <ol
               aria-label="Top three drivers"
