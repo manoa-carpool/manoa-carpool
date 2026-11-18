@@ -59,7 +59,7 @@ const RideRow = ({ ride, action }: { ride: Ride; action: ReactNode }) => {
         <div className={styles.rideText}>
           <div className={styles.title}>
             <span className={`${styles.roleTag} ${roleClass}`}>{ride.role}</span>
-            <strong>{when}</strong> {ride.route}
+            <strong>{when}</strong> <span className={styles.route}>{ride.route}</span>
           </div>
           <div className={styles.detail}>{ride.detail}</div>
           {/* /rides/[id] is the Ride Details page from issue #100; it 404s until that is merged. */}
