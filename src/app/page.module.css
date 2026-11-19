@@ -38,6 +38,15 @@
   font-weight: 750;
   letter-spacing: -0.035em;
   line-height: 1.05;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.heroLogo {
+  flex: 0 0 auto;
+  width: 1.15em;
+  height: 1.15em;
 }
 
 .hero p {

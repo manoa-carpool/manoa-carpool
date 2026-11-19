@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img">
+<title>Manoa Carpool — Rainbow Pickup</title>
+<rect x="2" y="2" width="60" height="60" rx="16" fill="#FFF8E9" stroke="#103C30" stroke-width="2"/>
+<path d="M10 35a22 22 0 0 1 44 0" fill="none" stroke="#B53A4E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 35a15 15 0 0 1 30 0" fill="none" stroke="#AD5116" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M24 33a8 8 0 0 1 16 0" fill="none" stroke="#197653" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 42h7l6-7h12l8 7h3a4 4 0 0 1 4 4v4h-6a4 4 0 1 1-8 0H25a4 4 0 1 1-8 0h-6v-5a3 3 0 0 1 2-3Z" fill="#103C30"/>
+<path d="m25 42 3-4h9l4 4Z" fill="#FFF8E9"/>
+</svg>

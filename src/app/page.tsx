@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -20,7 +21,10 @@ const Home = () => (
   <main className={styles.home}>
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.heroContent}>
-        <h1 id="hero-title">Manoa Carpool</h1>
+        <h1 id="hero-title">
+          <Image className={styles.heroLogo} src="/logo.svg" alt="" width={72} height={72} priority />
+          Manoa Carpool
+        </h1>
         <p>
           Share rides. Build community.
           <br />
