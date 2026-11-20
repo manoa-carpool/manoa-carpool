@@ -1,0 +1,149 @@
+.mapSection {
+  padding-top: 10px;
+}
+
+.mapDescription {
+  margin: 0 0 10px;
+  color: #59635e;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.map {
+  width: 100%;
+  height: min(58vw, 460px);
+  min-height: 310px;
+  border: 1px solid #dfe7df;
+  border-radius: 9px;
+  background: #e6eee5;
+}
+
+.carIcon {
+  border: 0;
+  background: transparent;
+}
+
+.carBadge {
+  position: relative;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--ride-color);
+  box-shadow: 0 1px 5px rgb(0 0 0 / 35%);
+  font-size: 17px;
+  line-height: 1;
+}
+
+.directionArrow {
+  display: inline-grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+  color: #17211b;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 1;
+}
+
+.carBadge .directionArrow {
+  position: absolute;
+  top: -8px;
+  right: -9px;
+}
+
+.routeCountIcon {
+  border: 0;
+  background: transparent;
+}
+
+.routeCountBadge,
+.routeCountExample {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #52665c;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 35%);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.mapLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 10px 2px 2px;
+  color: #46514a;
+  font-size: 0.76rem;
+}
+
+.mapLegend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.routeCountExample {
+  width: 20px;
+  height: 20px;
+  font-size: 0.65rem;
+}
+
+.cityNode,
+.campusNode {
+  width: 10px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #71b78a;
+  box-shadow: 0 0 0 1px #397754;
+}
+
+.campusNode {
+  width: 13px;
+  height: 13px;
+  background: #07543a;
+}
+
+.routeList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 8px 18px;
+  padding: 8px 2px 2px;
+}
+
+.routeItem {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  color: #3d4841;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.routeColor {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 20%);
+}
+
+@media (max-width: 600px) {
+  .map {
+    height: 340px;
+    min-height: 0;
+  }
+}
