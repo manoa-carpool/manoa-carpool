@@ -33,7 +33,7 @@ const NavBar: React.FC = () => {
           <Link className={pathName === '/' ? 'active' : ''} href="/">Home</Link>
           <Link className={pathName === '/rides' ? 'active' : ''} href="/rides">Find a Ride</Link>
           <Link className={pathName === '/drive' ? 'active' : ''} href="/drive">Offer a Ride</Link>
-          <Link href="/drive">My Rides</Link>
+          <Link className={pathName === '/my-rides' ? 'active' : ''} href="/my-rides">My Rides</Link>
           <Link className={pathName === '/leaderboard' ? 'active' : ''} href="/leaderboard">Leaderboard</Link>
           <Link href={profileLink}>Profile</Link>
           {currentUser && role === 'ADMIN' && (
