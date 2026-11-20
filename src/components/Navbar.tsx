@@ -1,12 +1,12 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { NavDropdown } from 'react-bootstrap';
 import {
   BoxArrowRight,
-  CarFrontFill,
   Lock,
   PersonCircle,
   PersonFill,
@@ -26,8 +26,7 @@ const NavBar: React.FC = () => {
     <header className="site-navbar">
       <div className="site-nav-inner">
         <Link className="site-brand" href="/" aria-label="Manoa Carpool home">
-          <span className="site-brand-mark" aria-hidden="true">U</span>
-          <CarFrontFill aria-hidden="true" />
+          <Image className="site-brand-mark" src="/logo.svg" alt="" width={44} height={44} priority />
           <span>Manoa <span>Carpool</span></span>
         </Link>
         <nav className="site-nav-links" aria-label="Main navigation">
