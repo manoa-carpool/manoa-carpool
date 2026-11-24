@@ -210,13 +210,6 @@ export default function HomeActivityMap() {
           );
         })}
       </MapContainer>
-      <div className={styles.mapLegend}>
-        <span><i className={styles.cityNode} /> Community center</span>
-        <span><i className={styles.campusNode} /> UH Mānoa</span>
-        <span><i className={styles.directionArrow}>➤</i> Car arrow shows direction</span>
-        <span><i className={styles.routeCountExample}>2</i> Example shared-route count</span>
-        <span>Straight lines are sample routes</span>
-      </div>
       <div className={styles.routeList} aria-label="Demo ride directions">
         {rides.map(({ from, to }, index) => (
           <div className={styles.routeItem} key={`${from.name}-${to.name}-${index}`}>

@@ -63,8 +63,7 @@
   background: transparent;
 }
 
-.routeCountBadge,
-.routeCountExample {
+.routeCountBadge {
   display: grid;
   width: 26px;
   height: 26px;
@@ -78,42 +77,6 @@
   font-weight: 700;
 }
 
-.mapLegend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  padding: 10px 2px 2px;
-  color: #46514a;
-  font-size: 0.76rem;
-}
-
-.mapLegend > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.routeCountExample {
-  width: 20px;
-  height: 20px;
-  font-size: 0.65rem;
-}
-
-.cityNode,
-.campusNode {
-  width: 10px;
-  height: 10px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: #71b78a;
-  box-shadow: 0 0 0 1px #397754;
-}
-
-.campusNode {
-  width: 13px;
-  height: 13px;
-  background: #07543a;
-}
 
 .routeList {
   display: grid;
