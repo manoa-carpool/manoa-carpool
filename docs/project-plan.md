@@ -38,7 +38,7 @@ We build on the course's [nextjs-application-template](https://github.com/ics-so
 | Backend files | Split by area: `dbActions.ts` (accounts), `rideActions.ts`, `requestActions.ts`, `points.ts`, `feedbackActions.ts` | Fewer merge conflicts with four people |
 | Sign-up | `@hawaii.edu` emails only, checked in `createUser`; real email verification is a possible M3 upgrade | Our "UH students only" safety feature |
 | Locations | A fixed list of Oahu areas (Kapolei, Ewa, Waipahu, Pearl City, Aiea, Mililani, Kaneohe, Kailua, Hawaii Kai, Kaimuki, Waikiki, Manoa campus, and so on), each with a map point and an approximate distance to campus | Easy search and filters, no home addresses stored |
-| Map | Leaflet + OpenStreetMap (`react-leaflet`), showing ride routes between areas | Free and needs no API key, so no secret to protect |
+| Map | Leaflet + OpenStreetMap (`react-leaflet`); the home page animates demo rides on straight lines between approximate community centers, while ride maps use area-level locations | Free and needs no API key; demo activity never exposes exact locations |
 | Points | Awarded only when both driver and rider confirm the ride: 10 per rider, +5 the first time a driver drives that rider, at most 2 counted rides per driver per day; miles come from the area-to-campus distance | Hard to farm points with a friend if there's a real prize |
 | Seats | Accepting a request runs in one transaction that re-counts accepted seats; seats left is calculated, never stored | No overbooking when two requests are accepted at once |
 

@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -13,6 +14,11 @@ import {
 } from 'react-bootstrap-icons';
 import styles from './page.module.css';
 import { demoRides } from './rides/demoRides';
+
+const HomeActivityMap = dynamic(() => import('@/components/HomeActivityMap'), {
+  ssr: false,
+  loading: () => <div role="status">Loading demo activity map...</div>,
+});
 
 /* the landing page shows the next few rides with open seats; searching is on the Find a Ride page (/rides) */
 const soonRides = demoRides.slice(0, 3);
@@ -87,6 +93,18 @@ const Home = () => (
             </article>
           ))}
         </div>
+      </div>
+    </section>
+
+    <section className={styles.soonContent} aria-labelledby="activity-title">
+      <div className={styles.availableCard}>
+        <div className={styles.ridesHeading}>
+          <div>
+            <h2 id="activity-title">Ride Activity Across Oʻahu</h2>
+            <span className={styles.demoLabel}>Demo activity</span>
+          </div>
+        </div>
+        <HomeActivityMap />
       </div>
     </section>
   </main>
